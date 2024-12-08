@@ -1,20 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llebugle <lucas.lebugle@student.s19.be>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/07 22:12:11 by llebugle          #+#    #+#             */
-/*   Updated: 2024/12/08 14:56:43 by llebugle         ###   ########.fr       */
+/*   Created: 2024/11/30 12:50:44 by llebugle          #+#    #+#             */
+/*   Updated: 2024/11/30 14:32:54 by llebugle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
-# include "libft/libft.h"
-# include <errno.h>
-# include <fcntl.h>
-# include <stdio.h>
+long	ft_atol(const char *str)
+{
+	long long	res;
+	int			sign;
+	int			i;
 
-#endif
+	i = 0;
+	sign = 1;
+	res = 0;
+	while (((str[i] >= 9 && str[i] <= 13) || str[i] == ' ') && str[i])
+		i++;
+	if (str[i] == '-')
+	{
+		sign *= -1;
+		i++;
+	}
+	else if (str[i] == '+')
+		i++;
+	while (str[i] && str[i] >= '0' && str[i] <= '9')
+	{
+		res = res * 10 + str[i] - 48;
+		i++;
+	}
+	return (sign * (long)res);
+}

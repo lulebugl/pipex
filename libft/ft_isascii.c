@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llebugle <lucas.lebugle@student.s19.be>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/07 22:12:11 by llebugle          #+#    #+#             */
-/*   Updated: 2024/12/08 14:56:43 by llebugle         ###   ########.fr       */
+/*   Created: 2024/10/22 16:37:37 by llebugle          #+#    #+#             */
+/*   Updated: 2024/10/24 14:16:52 by llebugle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
-# include "libft/libft.h"
-# include <errno.h>
-# include <fcntl.h>
-# include <stdio.h>
-
-#endif
+int	ft_isascii(int c)
+{
+	if (c >= 0 && c < 128)
+		return (1);
+	return (0);
+}

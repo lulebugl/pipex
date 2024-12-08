@@ -1,20 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llebugle <lucas.lebugle@student.s19.be>    +#+  +:+       +#+        */
+/*   By: llebugle <lucas.lebugle@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/07 22:12:11 by llebugle          #+#    #+#             */
-/*   Updated: 2024/12/08 14:56:43 by llebugle         ###   ########.fr       */
+/*   Created: 2024/10/23 17:42:46 by llebugle          #+#    #+#             */
+/*   Updated: 2024/10/26 14:19:15 by llebugle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
-# include "libft/libft.h"
-# include <errno.h>
-# include <fcntl.h>
-# include <stdio.h>
+#include "libft.h"
 
-#endif
+char	*ft_strrchr(const char *s, int c)
+{
+	char	*last;
+
+	last = NULL;
+	if ((char)c)
+	{
+		while (*s)
+		{
+			if (*s == (char)c)
+				last = (char *)s;
+			s++;
+		}
+	}
+	else
+		last = ft_strchr(s, c);
+	return (last);
+}

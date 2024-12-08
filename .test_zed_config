@@ -1,0 +1,59 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "vim_mode": false,
+  "ui_font_size": 16,
+  "buffer_font_size": 16,
+  "theme": { "mode": "system", "light": "One Light", "dark": "One Dark" },
+  // "lsp": {
+  //   "c-norminette": {
+  //     "initialization_options": {
+  //       "path": "/home/llebugle/Documents/zed-extension/inject_42h_linux_x86_64",
+  //       "name": "llebugle",
+  //       "email": "lucas.lebugle@student.s19.be",
+  //       "offset": 1
+  //     }
+  //   }
+  // },
+  "git": {
+    "git_gutter": null,
+    "gutter_debounce": null,
+    "inline_blame": {
+      "enabled": false
+    }
+  },
+  "ensure_final_newline_on_save": false,
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 50
+    }
+  },
+  "languages": {
+    "C": {
+      "file_types": [".c", ".h"],
+      "hard_tabs": true,
+      "formatter": {
+        "external": {
+          "command": "c_formatter_42",
+          "arguments": ["{buffer_path}"]
+        }
+      }
+    },
+    "C++": {
+      "file_types": [".c", ".h"],
+      "hard_tabs": true,
+      "formatter": {
+        "external": {
+          "command": "c_formatter_42",
+          "arguments": ["{buffer_path}"]
+        }
+      }
+    }
+  }
+}

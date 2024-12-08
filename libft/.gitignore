@@ -1,8 +1,7 @@
-pipex
+so_long
 
 # Prerequisites
 *.d
-.clangd
 
 # Object files
 *.o
@@ -22,6 +21,7 @@ pipex
 # Libraries
 *.lib
 *.a
+**/*.a
 *.la
 *.lo
 
