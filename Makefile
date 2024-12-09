@@ -28,7 +28,7 @@ OBJS_DIR = objs
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 
 SRCS = main.c \
-
+		utils.c
 LIBFT = libft/libft.a
 
 all: $(NAME)

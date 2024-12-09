@@ -12,9 +12,16 @@
 
 #ifndef PIPEX_H
 # define PIPEX_H
+
 # include "libft/libft.h"
 # include <errno.h>
 # include <fcntl.h>
-# include <stdio.h>
+# include <sys/wait.h>
+
+# define MALLOC_ERR "No space left on device.\n"
+
+void	display_err_and_exit(char *msg);
+void	usage(void);
 
 #endif
+

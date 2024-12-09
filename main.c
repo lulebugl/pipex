@@ -13,17 +13,9 @@
 #include "libft/libft.h"
 #include "pipex.h"
 #include <cstdlib>
-#include <fcntl.h>
+#include <cstring>
+#include <string.h>
 #include <unistd.h>
-
-void	usage(void)
-{
-	ft_printf_fd(2, "Error: Wrong number of argument\n");
-	ft_printf_fd(1, "Usage : ./pipex <file1> <cmd1> <cmd2> <...> <file2>\n");
-	ft_printf_fd(1,
-		"    ./pipex \"here_doc\" <LIMITER> <cmd> <cmd1> <...> <file>\n");
-	exit(0);
-}
 
 int	open_file(char *path, int flag)
 {
@@ -44,40 +36,106 @@ int	open_file(char *path, int flag)
 	return (ret);
 }
 
-static void	create_pipe_and_redirect(void)
+char	*get_path(char *str, char **envp)
+{
+	char	*cmd;
+	char	**path;
+	int		i;
+	int		err;
+
+	i = 0;
+	while (envp && envp[i])
+	{
+		if (!ft_strncmp(envp[i], "PATH", 4))
+		{
+			i = 0;
+			err = 0;
+			path = ft_split(envp[i], ':');
+			while (path[i])
+			{
+				err = access(path[i], F_OK);
+				if (err == 0)
+					return (path[i]);
+			}
+			if (err == -1)
+				display_err_and_exit(strerror(errno));
+		}
+		i++;
+	}
+	return (NULL);
+	// return (cmd);
+}
+
+static void	exec_cmd(char *argv, char **envp)
+{
+	char	**cmd;
+	char	*path;
+	int		i;
+
+	i = 0;
+	cmd = ft_split(argv, ' ');
+	if (!cmd)
+		display_err_and_exit(MALLOC_ERR);
+	path = get_path(cmd[0], envp);
+	if (execve(path, cmd, envp) == -1)
+	{
+		perror(strerror(errno));
+		exit(EXIT_FAILURE);
+	}
+	ft_free_tab(cmd);
+}
+
+static void	create_pipe_and_redirect(char *arg, char **envp)
 {
 	int		fd[2];
 	pid_t	pid;
 
 	if (pipe(fd) == -1)
-	{
-		ft_printf_fd(2, "An error occured while opening the pipe.\n");
-		exit(EXIT_FAILURE);
-	}
+		display_err_and_exit("An error occured while opening the pipe.\n");
 	pid = fork();
 	if (pid == -1)
+		display_err_and_exit("An error occured while forking processes.\n");
+	if (pid == 0)
 	{
-		ft_printf_fd(2, "An error occured while forking processes.\n");
-		exit(EXIT_FAILURE);
+		close(fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
+		exec_cmd(arg, envp);
+	}
+	else
+	{
+		close(fd[1]);
+		dup2(fd[0], STDIN_FILENO);
+		waitpid(pid, NULL, 0);
 	}
 }
 
-int	main(int ac, char **av, char **envp)
+static void	execute_command(int ac, char **av, char **envp)
 {
 	int	i;
 	int	in;
 	int	out;
 
 	i = 2;
-	if (ac < 5)
-		usage();
 	in = open_file(av[1], O_RDONLY);
 	out = open_file(av[ac - 1], O_TRUNC);
 	dup2(in, STDIN_FILENO);
 	while (i < ac - 2)
 	{
-		create_pipe_and_redirect()
+		// exec_cmd(av[i++], envp);
+		create_pipe_and_redirect(av[i++], envp);
 	}
+	dup2(out, STDOUT_FILENO);
+	exec_cmd(av[ac - 2], envp);
+}
+
+int	main(int ac, char **av, char **envp)
+{
+	int	i;
+
+	i = 2;
+	if (ac > 4)
+		execute_command(ac, av, envp);
+	usage();
 	return (0);
 }
 
