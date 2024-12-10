@@ -1,4 +1,6 @@
 pipex
+*.log
+*.txt
 
 # Prerequisites
 *.d

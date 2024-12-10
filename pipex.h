@@ -18,8 +18,8 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 
-# define MALLOC_ERR "No space left on device.\n"
-
+int		open_file(char *path, int flag);
+char	*get_path(char *str, char **envp);
 void	display_err_and_exit(char *msg);
 void	usage(void);
 
