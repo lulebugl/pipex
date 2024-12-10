@@ -20,10 +20,8 @@ IFS=' ' read -r -a ARG2 <<< "$CMD2"
 # Execute original command
 < in.c "${ARG1[@]}" | "${ARG2[@]}" > out.txt
 
-# Execute with pipex
 ./pipex in.c "$CMD1" "$CMD2" my_out.txt
 
-# Check diff and display result
 if diff out.txt my_out.txt > /dev/null; then
     echo -e "${GREEN}OK${NC}"
 else

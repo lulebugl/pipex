@@ -29,7 +29,7 @@ OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 
 SRCS = main.c \
 		utils.c \
-		exec.c
+		path.c
 		
 LIBFT = libft/libft.a
 
@@ -38,9 +38,9 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	@echo "$(GREEN)Building libft...$(RESET)"
 	@make -s -C libft
-	@echo "$(GREEN) ✧ Compiling... $(RESET)"
+	@echo "$(GREEN)  ✧ Compiling... $(RESET)"
 	@$(CC) $(OBJS) $(LIBFT) -o $(NAME)
-	@echo "$(GREEN) $(NAME) generated $(RESET)"
+	@echo "$(GREEN)$(NAME) generated $(RESET)"
 
 $(OBJS_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)

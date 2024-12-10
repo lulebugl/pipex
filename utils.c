@@ -23,8 +23,6 @@ int	open_file(char *path, int flag)
 		ret = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (flag == O_RDONLY)
 		ret = open(path, O_RDONLY, 0777);
-	if (ret == -1)
-		display_err_and_exit(strerror(errno));
 	return (ret);
 }
 
@@ -36,8 +34,16 @@ void	usage(void)
 	exit(0);
 }
 
-void	display_err_and_exit(char *msg)
+void	display_err_and_exit(char *msg, t_data *data)
 {
+ 	if (data->in_fd > 2)
+        close(data->in_fd);
+    if (data->out_fd > 2)
+        close(data->out_fd);
+    if (data->pipe_fd[0] > 2)
+        close(data->pipe_fd[0]);
+    if (data->pipe_fd[1] > 2)
+        close(data->pipe_fd[1]);
 	if (msg)
 		perror(msg);
 	exit(EXIT_FAILURE);
