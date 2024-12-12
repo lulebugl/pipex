@@ -18,11 +18,11 @@ int	open_file(char *path, int flag)
 
 	ret = 0;
 	if (flag == O_APPEND)
-		ret = open(path, O_WRONLY | O_CREAT | O_APPEND, 0777);
+		ret = open(path, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (flag == O_TRUNC)
-		ret = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		ret = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (flag == O_RDONLY)
-		ret = open(path, O_RDONLY, 0777);
+		ret = open(path, O_RDONLY);
 	return (ret);
 }
 
@@ -30,21 +30,44 @@ void	usage(void)
 {
 	ft_printf_fd(1, "Usage : ./pipex <file1> <cmd1> <cmd2> <...> <file2>\n");
 	ft_printf_fd(1,
-		"    ./pipex \"here_doc\" <LIMITER> <cmd> <cmd1> <...> <file>\n");
+		"        ./pipex \"here_doc\" <LIMITER> <cmd> <cmd1> <...> <file>\n");
 	exit(0);
+}
+
+void	clean_exit(t_data *data)
+{
+	if (data)
+	{
+		if (data->in_fd > 2)
+			close(data->in_fd);
+		if (data->out_fd > 2)
+			close(data->out_fd);
+		if (data->pipe_fd[0] > 2)
+			close(data->pipe_fd[0]);
+		if (data->pipe_fd[1] > 2)
+			close(data->pipe_fd[1]);
+	}
+	exit(EXIT_SUCCESS);
 }
 
 void	display_err_and_exit(char *msg, t_data *data)
 {
- 	if (data->in_fd > 2)
-        close(data->in_fd);
-    if (data->out_fd > 2)
-        close(data->out_fd);
-    if (data->pipe_fd[0] > 2)
-        close(data->pipe_fd[0]);
-    if (data->pipe_fd[1] > 2)
-        close(data->pipe_fd[1]);
-	if (msg)
+	if (errno == 0 && msg)
+		ft_printf_fd(2, msg);
+	else if (msg)
 		perror(msg);
+	if (data)
+	{
+		if (data->in_fd > 2)
+			close(data->in_fd);
+		if (data->out_fd > 2)
+			close(data->out_fd);
+		if (data->pipe_fd[0] > 2)
+			close(data->pipe_fd[0]);
+		if (data->pipe_fd[1] > 2)
+			close(data->pipe_fd[1]);
+	}
+
 	exit(EXIT_FAILURE);
 }
+

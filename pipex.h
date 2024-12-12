@@ -28,6 +28,7 @@ typedef struct s_data
 int		open_file(char *path, int flag);
 char	*get_path(char *str, char **envp);
 void	display_err_and_exit(char *msg, t_data *data);
+void	clean_exit(t_data *data);
 void	usage(void);
 
 #endif

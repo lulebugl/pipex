@@ -47,6 +47,8 @@ char	*get_path(char *str, char **envp)
 
 	i = 0;
 	path = NULL;
+	if (!str)
+		return (NULL);
 	while (envp && envp[i])
 	{
 		if (!ft_strncmp(envp[i], "PATH", 4))

@@ -4,28 +4,37 @@ GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-if [ "$#" -ne 2 ]; then
-    echo "Usage: $0 \"command1\" \"command2\""
+if [ "$#" -lt 2 ]; then
+    echo "Usage: $0 \"command1\" \"command2\" [\"command3\" ...]"
     exit 1
 fi
 
-# Store commands
-CMD1="$1"
-CMD2="$2"
+# Store input and output files
+IN_FILE="in.c"
+OUT_FILE="out.txt"
+MY_OUT_FILE="my_out.txt"
 
-# Create arrays for shell execution
-IFS=' ' read -r -a ARG1 <<< "$CMD1"
-IFS=' ' read -r -a ARG2 <<< "$CMD2"
+rm -f "$OUT_FILE" "$MY_OUT_FILE"
 
-# Execute original command
-< in.c "${ARG1[@]}" | "${ARG2[@]}" > out.txt
+# Build the shell pipeline command
+SHELL_CMD="< $IN_FILE"
+for cmd in "$@"; do
+    IFS=' ' read -r -a ARG <<< "$cmd"
+    SHELL_CMD+=" ${ARG[@]} |"
+done
+SHELL_CMD="${SHELL_CMD% |} > $OUT_FILE"  # Remove last pipe and add output redirection
 
-./pipex in.c "$CMD1" "$CMD2" my_out.txt
+# Execute shell pipeline
+eval "$SHELL_CMD"
 
-if diff out.txt my_out.txt > /dev/null; then
+# Execute pipex with all commands
+./pipex "$IN_FILE" "$@" "$MY_OUT_FILE"
+
+# Compare results
+if diff "$OUT_FILE" "$MY_OUT_FILE" > /dev/null; then
     echo -e "${GREEN}OK${NC}"
 else
     echo -e "${RED}KO${NC}"
     echo "Diff output:"
-    diff out.txt my_out.txt
+    diff "$OUT_FILE" "$MY_OUT_FILE"
 fi
