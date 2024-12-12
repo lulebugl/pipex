@@ -31,4 +31,3 @@ void	display_err_and_exit(char *msg, t_data *data);
 void	usage(void);
 
 #endif
-

@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "pipex.h"
 
 static void	execute_command(char *argv, char **envp, t_data *data)
@@ -98,3 +97,4 @@ int	main(int ac, char **av, char **envp)
 	usage();
 	return (0);
 }
+
