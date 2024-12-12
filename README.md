@@ -1,6 +1,6 @@
 # 📟 Pipex
 
-A C program that recreates Unix pipes (`|`). Think `cat file | grep hello`, but we build the `|` part!
+A C program that recreates Unix pipes (`|`). Think `cat file | grep hello`, but we build the `|` part.
 
 ```c
 infile --> cmd1 --> cmd2 --> outfile
@@ -11,14 +11,16 @@ infile --> cmd1 --> cmd2 --> outfile
 ## 🚀 Quick Start
 
 ```bash
+git clone https://github.com/lulebugl/pipex.git
+cd pipex
 make
-./pipex infile "ls -l" "wc -l" outfile        # Like: < infile ls -l | wc -l > outfile
-./pipex here_doc EOF "grep hi" "wc" outfile    # Like: << EOF grep hi | wc >> outfile
 ```
 
 ### Examples
 
 ```bash
+./pipex infile "ls -l" "wc -l" outfile        # Like: < infile ls -l | wc -l > outfile
+./pipex here_doc EOF "grep hi" "wc" outfile    # Like: << EOF grep hi | wc >> outfile
 ./pipex infile "ls -la" "grep .h" "sort -r" outfile
 ./pipex here_doc END "tr a-z A-Z" "sed s/HELLO/YOU/" outfile
 ```
