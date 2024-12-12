@@ -42,11 +42,9 @@ static char	*try_path(char *str, char *env)
 
 char	*get_path(char *str, char **envp)
 {
-	int		i;
-	char	*path;
+	int	i;
 
 	i = 0;
-	path = NULL;
 	if (!str)
 		return (NULL);
 	while (envp && envp[i])

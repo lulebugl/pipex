@@ -12,6 +12,23 @@
 
 #include "pipex.h"
 
+void	redirect_to_stdout(char **av, t_data *data)
+{
+	char	*line;
+
+	close(data->pipe_fd[0]);
+	while (1)
+	{
+		line = get_next_line(0);
+		if (!line)
+			break ;
+		if (ft_strncmp(line, av[2], ft_strlen(av[2])) == 0)
+			clean_exit(data);
+		write(data->pipe_fd[1], line, ft_strlen(line));
+		free(line);
+	}
+}
+
 int	open_file(char *path, int flag)
 {
 	int	ret;
@@ -52,10 +69,13 @@ void	clean_exit(t_data *data)
 
 void	display_err_and_exit(char *msg, t_data *data)
 {
-	if (errno == 0 && msg)
-		ft_printf_fd(2, msg);
-	else if (msg)
-		perror(msg);
+	if (msg)
+	{
+		if (errno == 0)
+			ft_printf_fd(2, "%s", msg);
+		else
+			perror(msg);
+	}
 	if (data)
 	{
 		if (data->in_fd > 2)
@@ -67,7 +87,5 @@ void	display_err_and_exit(char *msg, t_data *data)
 		if (data->pipe_fd[1] > 2)
 			close(data->pipe_fd[1]);
 	}
-
 	exit(EXIT_FAILURE);
 }
-

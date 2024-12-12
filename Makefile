@@ -35,17 +35,18 @@ LIBFT = libft/libft.a
 
 all: $(NAME)
 
+bonus: $(NAME)
+
 $(NAME): $(OBJS)
 	@echo "$(GREEN)Building libft...$(RESET)"
 	@make -s -C libft
 	@echo "$(GREEN)  ✧ Compiling... $(RESET)"
-	@$(CC) $(OBJS) $(LIBFT) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 	@echo "$(GREEN)$(NAME) generated $(RESET)"
 
 $(OBJS_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
-	@$(CC) $(INC) -c $< -o $@
-#	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(LIBFT):
 	@make -s -C libft
