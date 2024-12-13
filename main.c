@@ -29,7 +29,6 @@ static void	execute_command(char *argv, char **envp, t_data *data)
 		if (errno == 0)
 			display_err_and_exit("Command not found.\n", data);
 		display_err_and_exit("pipex ", data);
-		exit(1);
 	}
 	if (execve(path, cmd, envp) == -1)
 	{
